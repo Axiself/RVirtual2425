@@ -45,7 +45,10 @@ public class DroneMovementScript : MonoBehaviour
     {
         if (Input.GetAxis("Vertical") != 0)
         {
-            droneBody.AddRelativeForce(Vector3.forward * Input.GetAxis("Vertical") * movementForwardSpeed);
+            // Calculate the forward force and project it onto the horizontal plane
+            Vector3 forwardForce = Vector3.ProjectOnPlane(transform.forward, Vector3.up) * Input.GetAxis("Vertical") * movementForwardSpeed;
+            droneBody.AddForce(forwardForce, ForceMode.Force);
+
             tiltAmountForward = Mathf.SmoothDamp(tiltAmountForward, 20 * Input.GetAxis("Vertical"), ref tiltVelocityForward, 0.1f);
         }
         else
@@ -100,7 +103,10 @@ public class DroneMovementScript : MonoBehaviour
     {
         if (Input.GetAxis("Horizontal") != 0)
         {
-            droneBody.AddRelativeForce(Vector3.right * Input.GetAxis("Horizontal") * sideMovementAmount);
+            // Calculate the sideways force and project it onto the horizontal plane
+            Vector3 sidewaysForce = Vector3.ProjectOnPlane(transform.right, Vector3.up) * Input.GetAxis("Horizontal") * sideMovementAmount;
+            droneBody.AddForce(sidewaysForce, ForceMode.Force);
+
             tiltAmountSideways = Mathf.SmoothDamp(tiltAmountSideways, -20 * Input.GetAxis("Horizontal"), ref tiltAmountVelocity, 0.1f);
         }
         else
