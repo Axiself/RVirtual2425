@@ -1,0 +1,5 @@
+C:/Users/Carlos Silva/OneDrive/Documentos/GitHub/RVirtual2425/.utmp/RelWithDebInfo/tp6v1566/arm64-v8a/CMakeFiles/edit_cache.dir
+C:/Users/Carlos Silva/OneDrive/Documentos/GitHub/RVirtual2425/.utmp/RelWithDebInfo/tp6v1566/arm64-v8a/CMakeFiles/rebuild_cache.dir
+C:/Users/Carlos Silva/OneDrive/Documentos/GitHub/RVirtual2425/.utmp/RelWithDebInfo/tp6v1566/arm64-v8a/GameActivity/CMakeFiles/game.dir
+C:/Users/Carlos Silva/OneDrive/Documentos/GitHub/RVirtual2425/.utmp/RelWithDebInfo/tp6v1566/arm64-v8a/GameActivity/CMakeFiles/edit_cache.dir
+C:/Users/Carlos Silva/OneDrive/Documentos/GitHub/RVirtual2425/.utmp/RelWithDebInfo/tp6v1566/arm64-v8a/GameActivity/CMakeFiles/rebuild_cache.dir
