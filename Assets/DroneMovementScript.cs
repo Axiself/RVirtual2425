@@ -1,12 +1,60 @@
+using System;
+using System.IO;
+using System.Text;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class DroneMovementScript : MonoBehaviour
 {
     Rigidbody droneBody;
+    private string positionDataFilePath;
+    [Header("OVRCameraRig")]
+    [SerializeField] public GameObject Head;
+    private StreamWriter file;
+    public InputActionReference upAction; // Grip button
+    public InputActionReference downAction;
+    public Transform droneTransform;
 
     void Awake()
     {
         droneBody = GetComponent<Rigidbody>();
+        droneTransform = GameObject.FindGameObjectWithTag("Drone").transform;
+    }
+
+    public void OnEnable() 
+    {
+        upAction.action.started += moveUp;
+        downAction.action.started += moveDown;
+        upAction.action.canceled += stopMovingUp;
+        downAction.action.canceled += stopMovingDown;
+    }
+    public void OnDisable() 
+    {
+        upAction.action.performed -= moveUp;
+        downAction.action.performed -= moveDown;
+    }
+
+    bool isMovingUp = false;
+    bool isMovingDown = false;
+
+    public void moveUp(InputAction.CallbackContext args) 
+    {
+        isMovingUp = true;
+    }
+
+    public void moveDown(InputAction.CallbackContext args) 
+    {
+        isMovingDown = true;
+    }
+
+    public void stopMovingUp(InputAction.CallbackContext args) 
+    {
+        isMovingUp = false;
+    }
+
+    public void stopMovingDown(InputAction.CallbackContext args) 
+    {
+        isMovingDown = false;
     }
 
     void FixedUpdate()
@@ -16,6 +64,7 @@ public class DroneMovementScript : MonoBehaviour
         Rotation();
         ClampingSpeedValues();
         Swerve();
+        AlignDirection();
 
         droneBody.AddRelativeForce(Vector3.up * upForce);
         droneBody.rotation = Quaternion.Euler(new Vector3(tiltAmountForward, currentYRotation, tiltAmountSideways));
@@ -24,11 +73,11 @@ public class DroneMovementScript : MonoBehaviour
     public float upForce;
     void MovementUpDown()
     {
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKey(KeyCode.Space) || isMovingUp)
         {
             upForce = 450f;
         }
-        else if (Input.GetKey(KeyCode.LeftControl))
+        else if (Input.GetKey(KeyCode.LeftControl) || isMovingDown)
         {
             upForce = -200f;
         }
@@ -46,7 +95,8 @@ public class DroneMovementScript : MonoBehaviour
         if (Input.GetAxis("Vertical") != 0)
         {
             // Calculate the forward force and project it onto the horizontal plane
-            Vector3 forwardForce = Vector3.ProjectOnPlane(transform.forward, Vector3.up) * Input.GetAxis("Vertical") * movementForwardSpeed;
+            //Vector3 forwardForce = Vector3.ProjectOnPlane(transform.forward, Vector3.up) * Input.GetAxis("Vertical") * movementForwardSpeed;
+            Vector3 forwardForce = movementForwardDirection * Input.GetAxis("Vertical") * movementForwardSpeed;
             droneBody.AddForce(forwardForce, ForceMode.Force);
 
             tiltAmountForward = Mathf.SmoothDamp(tiltAmountForward, 20 * Input.GetAxis("Vertical"), ref tiltVelocityForward, 0.1f);
@@ -63,17 +113,11 @@ public class DroneMovementScript : MonoBehaviour
     private float rotationYVelocity;
     void Rotation()
     {
-        if (Input.GetKey(KeyCode.Q))
-        {
-            wantedYRotation -= rotateAmountByKeys;
-        }
-        if (Input.GetKey(KeyCode.E))
-        {
-            wantedYRotation += rotateAmountByKeys;
-        }
-
-        currentYRotation = Mathf.SmoothDamp(currentYRotation, wantedYRotation, ref rotationYVelocity, 0.25f);
+        movementForwardDirection = Camera.main.transform.forward;
+        movementForwardDirection.y = 0;
     }
+
+    Vector3 movementForwardDirection;
 
     public Vector3 velocityToSmothDampToZero;
     void ClampingSpeedValues()
@@ -113,5 +157,12 @@ public class DroneMovementScript : MonoBehaviour
         {
             tiltAmountSideways = Mathf.SmoothDamp(tiltAmountSideways, 0, ref tiltAmountVelocity, 0.1f);
         }
+    }
+
+    void AlignDirection()
+    {
+        movementForwardDirection.Normalize();
+
+        droneTransform.rotation = Quaternion.LookRotation(movementForwardDirection);
     }
 }
