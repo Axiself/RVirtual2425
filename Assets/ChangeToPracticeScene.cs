@@ -7,6 +7,6 @@ public class ChangeToPracticeScene : MonoBehaviour
 {
     public void GoToPracticeScene()
     {
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene("Practice");
     }
 }
