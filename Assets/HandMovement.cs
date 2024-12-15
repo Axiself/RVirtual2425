@@ -110,12 +110,6 @@ public class HandMovement : MonoBehaviour
             // Calculate the forward force and project it onto the horizontal plane
             Vector3 forwardForce = Vector3.ProjectOnPlane(transform.forward, Vector3.up) * Input.GetAxis("Vertical") * movementForwardSpeed;
             droneBody.AddForce(forwardForce, ForceMode.Force);
-
-            tiltAmountForward = Mathf.SmoothDamp(tiltAmountForward, 20 * Input.GetAxis("Vertical"), ref tiltVelocityForward, 0.1f);
-        }
-        else
-        {
-            tiltAmountForward = Mathf.SmoothDamp(tiltAmountForward, 0, ref tiltVelocityForward, 0.1f);
         }
     }
 
@@ -190,12 +184,6 @@ public class HandMovement : MonoBehaviour
             // Calculate the sideways force and project it onto the horizontal plane
             Vector3 sidewaysForce = Vector3.ProjectOnPlane(transform.right, Vector3.up) * Input.GetAxis("Horizontal") * sideMovementAmount;
             droneBody.AddForce(sidewaysForce, ForceMode.Force);
-
-            tiltAmountSideways = Mathf.SmoothDamp(tiltAmountSideways, -20 * Input.GetAxis("Horizontal"), ref tiltAmountVelocity, 0.1f);
-        }
-        else
-        {
-            tiltAmountSideways = Mathf.SmoothDamp(tiltAmountSideways, 0, ref tiltAmountVelocity, 0.1f);
         }
     }
 }
