@@ -7,6 +7,6 @@ public class ChangeToHeadControlScene : MonoBehaviour
 {
     public void GoToHeadControlScene()
     {
-        SceneManager.LoadScene("Head Control");
+        SceneManager.LoadScene("Hand Control");
     }
 }

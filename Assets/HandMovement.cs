@@ -22,7 +22,11 @@ public class HandMovement : MonoBehaviour
     {
         droneBody = GetComponent<Rigidbody>();
         droneTransform = GameObject.FindGameObjectWithTag("Drone").transform;
+        InitializeRightHand();
+    }
 
+    void InitializeRightHand()
+    {
         var inputDevices = new List<UnityEngine.XR.InputDevice>();
         InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.Controller | InputDeviceCharacteristics.Right, inputDevices);
         if (inputDevices.Count > 0)
@@ -73,14 +77,15 @@ public class HandMovement : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (!rightController.isValid) InitializeRightHand();
         MovementUpDown();
         MovementForward();
         Rotation();
         ClampingSpeedValues();
         Swerve();
+        AlignDroneUpright();
 
         droneBody.AddRelativeForce(Vector3.up * upForce);
-        droneBody.rotation = Quaternion.Euler(new Vector3(tiltAmountForward, currentYRotation, tiltAmountSideways));
     }
 
     public float upForce;
@@ -113,45 +118,84 @@ public class HandMovement : MonoBehaviour
         }
     }
 
-    private float wantedYRotation;
-    [HideInInspector] public float currentYRotation;
-    private float rotationSpeed = 2.5f;
-    private float rotationYVelocity;
-
+    private float rotationSpeed = 2.5f; // Maximum turning speed in degrees per second
+    private float deadzone = 20f; // Deadzone angle in degrees
+    private float smoothTime = 0.1f; // Smoothing factor for rotation
+    private float currentRotationSpeed; // Current rotation speed for smoothing
+    private float rotationVelocity; // Velocity tracker for SmoothDamp
+    private bool isInitialRotationSet;
     private Quaternion initialControllerRotation;
-    private bool isInitialRotationSet = false;
+
+    public float maxRotationAngle = 45f; // Maximum rotation angle in degrees
+
+    private Vector3 maxRotationAngles = new Vector3(10f, 45f, 10f); // Max rotation for X (pitch), Y (yaw), Z (roll)
+
+    // Update the Rotation method
     void Rotation()
     {
         if (rightController.isValid)
         {
-            // Get the controller's rotation
             if (rightController.TryGetFeatureValue(UnityEngine.XR.CommonUsages.deviceRotation, out Quaternion currentRotation))
             {
-                // Set the initial rotation once
+                // Set the initial rotation once and align the drone to the controller's starting position
                 if (!isInitialRotationSet)
                 {
                     initialControllerRotation = currentRotation;
+                    transform.rotation = Quaternion.Euler(0, transform.eulerAngles.y, 0); // Ensure upright alignment
                     isInitialRotationSet = true;
+                    return; // Skip rotation calculations on the first frame
                 }
 
                 // Calculate the rotation difference
                 Quaternion deltaRotation = Quaternion.Inverse(initialControllerRotation) * currentRotation;
 
-                // Extract the yaw (left/right tilt) from the deltaRotation
+                // Extract only the yaw (Y-axis rotation)
                 Vector3 deltaEuler = deltaRotation.eulerAngles;
                 float yawChange = deltaEuler.y > 180 ? deltaEuler.y - 360 : deltaEuler.y;
 
-                // Apply the yaw change to the camera
-                droneTransform.Rotate(0, yawChange * rotationSpeed * Time.deltaTime, 0, Space.World);
+                // Apply a deadzone 
+                if (Mathf.Abs(yawChange) < deadzone && Mathf.Abs(yawChange) > -deadzone)
+                {
+                    yawChange = 0; // Ignore small movements within the deadzone
+                }
 
-                // Optionally reset the controller's initial rotation (to prevent drift)
-                initialControllerRotation = currentRotation;
+                // Prevent rotation at the start until meaningful input is detected
+                if (yawChange == 0 && !isInitialRotationSet)
+                {
+                    currentRotationSpeed = 0; // Ensure no rotation
+                    return;
+                }
+
+                // Clamp the yaw change to the max rotation angle
+                yawChange = Mathf.Clamp(yawChange, -maxRotationAngles.y, maxRotationAngles.y);
+
+                // Gradually apply the rotation
+                float targetRotationSpeed = yawChange * rotationSpeed;
+                currentRotationSpeed = Mathf.SmoothDamp(currentRotationSpeed, targetRotationSpeed, ref rotationVelocity, smoothTime);
+
+                // Rotate only around the Y-axis
+                Vector3 newEulerAngles = transform.eulerAngles;
+                newEulerAngles.y += currentRotationSpeed * Time.deltaTime;
+                transform.eulerAngles = newEulerAngles;
+
+                // Ensure the drone stays upright by clamping pitch and roll
+                ClampDroneRotation();
             }
         }
-        currentYRotation = Mathf.SmoothDamp(currentYRotation, wantedYRotation, ref rotationYVelocity, 0.25f);
     }
 
-    Vector3 movementForwardDirection;
+
+    // Helper method to clamp the drone's rotation and correct orientation
+    void ClampDroneRotation()
+    {
+        Vector3 clampedEuler = transform.eulerAngles;
+        clampedEuler.x = 0; // Lock pitch
+        clampedEuler.z = 0; // Lock roll
+        transform.eulerAngles = clampedEuler;
+    }
+
+
+    public Vector3 movementForwardDirection;
 
     public Vector3 velocityToSmothDampToZero;
     void ClampingSpeedValues()
@@ -185,5 +229,17 @@ public class HandMovement : MonoBehaviour
             Vector3 sidewaysForce = Vector3.ProjectOnPlane(transform.right, Vector3.up) * Input.GetAxis("Horizontal") * sideMovementAmount;
             droneBody.AddForce(sidewaysForce, ForceMode.Force);
         }
+    }
+
+    // Helper method to keep the drone upright
+    void AlignDroneUpright()
+    {
+        Vector3 currentEulerAngles = transform.eulerAngles;
+
+        // Reset pitch and roll to 0, maintaining the current yaw
+        currentEulerAngles.x = 0; // No tilt forward/backward
+        currentEulerAngles.z = 0; // No tilt sideways
+
+        transform.rotation = Quaternion.Euler(currentEulerAngles);
     }
 }
