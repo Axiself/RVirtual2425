@@ -19,6 +19,7 @@ public class DroneMovementScript : MonoBehaviour
     {
         droneBody = GetComponent<Rigidbody>();
         droneTransform = GameObject.FindGameObjectWithTag("Drone").transform;
+        droneBody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
     }
 
     public void OnEnable() 

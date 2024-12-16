@@ -22,6 +22,7 @@ public class HandMovement : MonoBehaviour
     {
         droneBody = GetComponent<Rigidbody>();
         droneTransform = GameObject.FindGameObjectWithTag("Drone").transform;
+        droneBody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
         InitializeRightHand();
     }
 
