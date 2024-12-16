@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.XR;
 
+
 public class HandMovement : MonoBehaviour
 {
     Rigidbody droneBody;
@@ -17,6 +18,7 @@ public class HandMovement : MonoBehaviour
     public InputActionReference upAction; // Grip button
     public InputActionReference downAction;
     public Transform droneTransform;
+    public int count = 0;
 
     void Awake()
     {
@@ -36,7 +38,7 @@ public class HandMovement : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Right controller not found!");
+            //Debug.LogError("Right controller not found!");
         }
     }
 
@@ -87,6 +89,7 @@ public class HandMovement : MonoBehaviour
         AlignDroneUpright();
 
         droneBody.AddRelativeForce(Vector3.up * upForce);
+       
     }
 
     public float upForce;
