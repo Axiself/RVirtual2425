@@ -476,6 +476,7 @@ GameObject:
   - component: {fileID: 178991439}
   - component: {fileID: 178991438}
   - component: {fileID: 178991437}
+  - component: {fileID: 178991440}
   m_Layer: 0
   m_Name: Hand Control Button
   m_TagString: Untagged
@@ -546,7 +547,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 178991438}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 178991440}
+        m_TargetAssemblyTypeName: ChangeToPracticeHandG2Scene, Assembly-CSharp
+        m_MethodName: GoToPracticeScene
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &178991438
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -585,6 +598,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 178991435}
   m_CullTransparentMesh: 1
+--- !u!114 &178991440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 178991435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51d67000dae77d8419bc700d5657caef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &237339343 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2417358720014700305, guid: 27024f5809f4a4347b9cd7f26a1bdf93, type: 3}
@@ -3758,6 +3783,7 @@ GameObject:
   - component: {fileID: 873337643}
   - component: {fileID: 873337642}
   - component: {fileID: 873337641}
+  - component: {fileID: 873337644}
   m_Layer: 0
   m_Name: Head Control Button
   m_TagString: Untagged
@@ -3828,7 +3854,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 873337642}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 873337644}
+        m_TargetAssemblyTypeName: ChangeToPracticeHeadG1Scene, Assembly-CSharp
+        m_MethodName: GoToPracticeScene
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &873337642
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3867,6 +3905,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 873337639}
   m_CullTransparentMesh: 1
+--- !u!114 &873337644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 873337639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a1daba78601fa4429f0b68614d8259b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &873825301
 GameObject:
   m_ObjectHideFlags: 0
@@ -4920,6 +4970,7 @@ GameObject:
   - component: {fileID: 1213838380}
   - component: {fileID: 1213838379}
   - component: {fileID: 1213838378}
+  - component: {fileID: 1213838381}
   m_Layer: 0
   m_Name: Hand Control Button
   m_TagString: Untagged
@@ -4990,7 +5041,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1213838379}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1213838381}
+        m_TargetAssemblyTypeName: ChangeToPracticeHandG1Scene, Assembly-CSharp
+        m_MethodName: GoToPracticeScene
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1213838379
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5029,6 +5092,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1213838375}
   m_CullTransparentMesh: 1
+--- !u!114 &1213838381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1213838375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bbe42f81d517134d8f8a59c676b4ae5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1232923423
 GameObject:
   m_ObjectHideFlags: 0
@@ -5668,6 +5743,7 @@ GameObject:
   - component: {fileID: 1387630817}
   - component: {fileID: 1387630816}
   - component: {fileID: 1387630815}
+  - component: {fileID: 1387630818}
   m_Layer: 0
   m_Name: Head Control Button
   m_TagString: Untagged
@@ -5738,7 +5814,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1387630816}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1387630818}
+        m_TargetAssemblyTypeName: ChangeToPracticeHeadG2Scene, Assembly-CSharp
+        m_MethodName: GoToPracticeScene
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1387630816
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5777,6 +5865,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1387630813}
   m_CullTransparentMesh: 1
+--- !u!114 &1387630818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1387630813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b368602a4fb2f814d8a831053e938ebb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1393357462
 GameObject:
   m_ObjectHideFlags: 0

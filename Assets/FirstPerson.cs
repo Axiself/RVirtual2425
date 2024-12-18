@@ -4,7 +4,7 @@ public class FirstPerson : MonoBehaviour
 {
     [Header("Camera Offset Settings")]
     private Transform camera;
-    private Vector3 height = new Vector3(0.0f, -0.5f, 0.0f);
+    private Vector3 height = new Vector3(0.0f, -2.0f, 0.0f);
 
     void Awake()
     {
