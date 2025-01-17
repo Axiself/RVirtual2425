@@ -10,7 +10,7 @@ public class MakeInvisibleOnCollision : MonoBehaviour
     private Renderer objectRenderer; // For controlling visibility
     private Collider objectCollider; // For disabling collision
     private TextMeshPro canvasText; // Text component to update the x/5 value
-    public static int count = 0;
+    public static int count;
     public TextMeshProUGUI text;
     [SerializeField]
     public string groupN;
@@ -24,6 +24,7 @@ public class MakeInvisibleOnCollision : MonoBehaviour
         // Get object components
         objectRenderer = GetComponent<Renderer>();
         objectCollider = GetComponent<Collider>();
+        count = 0
 
         // Find the canvas and its text component
         GameObject canvasObject = GameObject.FindGameObjectWithTag("Notification");
